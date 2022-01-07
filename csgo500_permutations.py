@@ -1,0 +1,321 @@
+import json
+
+values = []
+
+path = r'C:\Users\Kompiuteris\Desktop\18-20AUG.csv'
+with open(path, 'r') as x:
+    for line in x:
+        cells = line.split(',')
+        values.append((cells[0].strip()))
+
+'''
+Error in first excel cell, we separate string into characters and save the last character for the first cell value
+'''
+firstCorrectValue = list(values[0])
+values[0] = firstCorrectValue[-1]
+
+integerValues = [int(numericString) for numericString in values]
+
+blacks = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20,
+        22, 24, 26, 28, 30, 32, 34, 36, 38, 40,
+        42, 44, 46, 48, 50, 52]
+reds = [3, 5, 7, 13, 15, 17, 23, 25, 27, 29, 31,
+        37, 39, 41, 47, 49, 51]
+blues = [1, 9, 11, 19, 21, 33, 35, 43, 45, 53]
+gold = [0]
+
+for i in range(8076):
+    if integerValues[i] in blacks:
+        integerValues[i] = "black"
+    elif integerValues[i] in reds:
+        integerValues[i] = "red"
+    elif integerValues[i] in blues:
+        integerValues[i] = "blue"
+    else:
+        integerValues[i] = "gold"
+
+i = 0 #start of pattern
+j = 4 #for merging/splicing
+k = 4 #next element after pattern of 4 values
+
+permutationsOfColours = {
+'black, black, black, black' : [0, 0, 0, 0],
+'black, black, black, red' : [0, 0, 0, 0],
+'black, black, black, blue' : [0, 0, 0, 0],
+'black, black, black, gold' : [0, 0, 0, 0],
+'black, black, red, black' : [0, 0, 0, 0],
+'black, black, red, red' : [0, 0, 0, 0],
+'black, black, red, blue' : [0, 0, 0, 0],
+'black, black, red, gold' : [0, 0, 0, 0],
+'black, black, blue, black' : [0, 0, 0, 0],
+'black, black, blue, red' : [0, 0, 0, 0],
+'black, black, blue, blue' : [0, 0, 0, 0],
+'black, black, blue, gold' : [0, 0, 0, 0],
+'black, black, gold, black' : [0, 0, 0, 0],
+'black, black, gold, red' : [0, 0, 0, 0],
+'black, black, gold, blue' : [0, 0, 0, 0],
+'black, black, gold, gold' : [0, 0, 0, 0],
+'black, red, black, black' : [0, 0, 0, 0],
+'black, red, black, red' : [0, 0, 0, 0],
+'black, red, black, blue' : [0, 0, 0, 0],
+'black, red, black, gold' : [0, 0, 0, 0],
+'black, red, red, black' : [0, 0, 0, 0],
+'black, red, red, red' : [0, 0, 0, 0],
+'black, red, red, blue' : [0, 0, 0, 0],
+'black, red, red, gold' : [0, 0, 0, 0],
+'black, red, blue, black' : [0, 0, 0, 0],
+'black, red, blue, red' : [0, 0, 0, 0],
+'black, red, blue, blue' : [0, 0, 0, 0],
+'black, red, blue, gold' : [0, 0, 0, 0],
+'black, red, gold, black' : [0, 0, 0, 0],
+'black, red, gold, red' : [0, 0, 0, 0],
+'black, red, gold, blue' : [0, 0, 0, 0],
+'black, red, gold, gold' : [0, 0, 0, 0],
+'black, blue, black, black' : [0, 0, 0, 0],
+'black, blue, black, red' : [0, 0, 0, 0],
+'black, blue, black, blue' : [0, 0, 0, 0],
+'black, blue, black, gold' : [0, 0, 0, 0],
+'black, blue, red, black' : [0, 0, 0, 0],
+'black, blue, red, red' : [0, 0, 0, 0],
+'black, blue, red, blue' : [0, 0, 0, 0],
+'black, blue, red, gold' : [0, 0, 0, 0],
+'black, blue, blue, black' : [0, 0, 0, 0],
+'black, blue, blue, red' : [0, 0, 0, 0],
+'black, blue, blue, blue' : [0, 0, 0, 0],
+'black, blue, blue, gold' : [0, 0, 0, 0],
+'black, blue, gold, black' : [0, 0, 0, 0],
+'black, blue, gold, red' : [0, 0, 0, 0],
+'black, blue, gold, blue' : [0, 0, 0, 0],
+'black, blue, gold, gold' : [0, 0, 0, 0],
+'black, gold, black, black' : [0, 0, 0, 0],
+'black, gold, black, red' : [0, 0, 0, 0],
+'black, gold, black, blue' : [0, 0, 0, 0],
+'black, gold, black, gold' : [0, 0, 0, 0],
+'black, gold, red, black' : [0, 0, 0, 0],
+'black, gold, red, red' : [0, 0, 0, 0],
+'black, gold, red, blue' : [0, 0, 0, 0],
+'black, gold, red, gold' : [0, 0, 0, 0],
+'black, gold, blue, black' : [0, 0, 0, 0],
+'black, gold, blue, red' : [0, 0, 0, 0],
+'black, gold, blue, blue' : [0, 0, 0, 0],
+'black, gold, blue, gold' : [0, 0, 0, 0],
+'black, gold, gold, black' : [0, 0, 0, 0],
+'black, gold, gold, red' : [0, 0, 0, 0],
+'black, gold, gold, blue' : [0, 0, 0, 0],
+'black, gold, gold, gold' : [0, 0, 0, 0],
+'red, black, black, black' : [0, 0, 0, 0],
+'red, black, black, red' : [0, 0, 0, 0],
+'red, black, black, blue' : [0, 0, 0, 0],
+'red, black, black, gold' : [0, 0, 0, 0],
+'red, black, red, black' : [0, 0, 0, 0],
+'red, black, red, red' : [0, 0, 0, 0],
+'red, black, red, blue' : [0, 0, 0, 0],
+'red, black, red, gold' : [0, 0, 0, 0],
+'red, black, blue, black' : [0, 0, 0, 0],
+'red, black, blue, red' : [0, 0, 0, 0],
+'red, black, blue, blue' : [0, 0, 0, 0],
+'red, black, blue, gold' : [0, 0, 0, 0],
+'red, black, gold, black' : [0, 0, 0, 0],
+'red, black, gold, red' : [0, 0, 0, 0],
+'red, black, gold, blue' : [0, 0, 0, 0],
+'red, black, gold, gold' : [0, 0, 0, 0],
+'red, red, black, black' : [0, 0, 0, 0],
+'red, red, black, red' : [0, 0, 0, 0],
+'red, red, black, blue' : [0, 0, 0, 0],
+'red, red, black, gold' : [0, 0, 0, 0],
+'red, red, red, black' : [0, 0, 0, 0],
+'red, red, red, red' : [0, 0, 0, 0],
+'red, red, red, blue' : [0, 0, 0, 0],
+'red, red, red, gold' : [0, 0, 0, 0],
+'red, red, blue, black' : [0, 0, 0, 0],
+'red, red, blue, red' : [0, 0, 0, 0],
+'red, red, blue, blue' : [0, 0, 0, 0],
+'red, red, blue, gold' : [0, 0, 0, 0],
+'red, red, gold, black' : [0, 0, 0, 0],
+'red, red, gold, red' : [0, 0, 0, 0],
+'red, red, gold, blue' : [0, 0, 0, 0],
+'red, red, gold, gold' : [0, 0, 0, 0],
+'red, blue, black, black' : [0, 0, 0, 0],
+'red, blue, black, red' : [0, 0, 0, 0],
+'red, blue, black, blue' : [0, 0, 0, 0],
+'red, blue, black, gold' : [0, 0, 0, 0],
+'red, blue, red, black' : [0, 0, 0, 0],
+'red, blue, red, red' : [0, 0, 0, 0],
+'red, blue, red, blue' : [0, 0, 0, 0],
+'red, blue, red, gold' : [0, 0, 0, 0],
+'red, blue, blue, black' : [0, 0, 0, 0],
+'red, blue, blue, red' : [0, 0, 0, 0],
+'red, blue, blue, blue' : [0, 0, 0, 0],
+'red, blue, blue, gold' : [0, 0, 0, 0],
+'red, blue, gold, black' : [0, 0, 0, 0],
+'red, blue, gold, red' : [0, 0, 0, 0],
+'red, blue, gold, blue' : [0, 0, 0, 0],
+'red, blue, gold, gold' : [0, 0, 0, 0],
+'red, gold, black, black' : [0, 0, 0, 0],
+'red, gold, black, red' : [0, 0, 0, 0],
+'red, gold, black, blue' : [0, 0, 0, 0],
+'red, gold, black, gold' : [0, 0, 0, 0],
+'red, gold, red, black' : [0, 0, 0, 0],
+'red, gold, red, red' : [0, 0, 0, 0],
+'red, gold, red, blue' : [0, 0, 0, 0],
+'red, gold, red, gold' : [0, 0, 0, 0],
+'red, gold, blue, black' : [0, 0, 0, 0],
+'red, gold, blue, red' : [0, 0, 0, 0],
+'red, gold, blue, blue' : [0, 0, 0, 0],
+'red, gold, blue, gold' : [0, 0, 0, 0],
+'red, gold, gold, black' : [0, 0, 0, 0],
+'red, gold, gold, red' : [0, 0, 0, 0],
+'red, gold, gold, blue' : [0, 0, 0, 0],
+'red, gold, gold, gold' : [0, 0, 0, 0],
+'blue, black, black, black' : [0, 0, 0, 0],
+'blue, black, black, red' : [0, 0, 0, 0],
+'blue, black, black, blue' : [0, 0, 0, 0],
+'blue, black, black, gold' : [0, 0, 0, 0],
+'blue, black, red, black' : [0, 0, 0, 0],
+'blue, black, red, red' : [0, 0, 0, 0],
+'blue, black, red, blue' : [0, 0, 0, 0],
+'blue, black, red, gold' : [0, 0, 0, 0],
+'blue, black, blue, black' : [0, 0, 0, 0],
+'blue, black, blue, red' : [0, 0, 0, 0],
+'blue, black, blue, blue' : [0, 0, 0, 0],
+'blue, black, blue, gold' : [0, 0, 0, 0],
+'blue, black, gold, black' : [0, 0, 0, 0],
+'blue, black, gold, red' : [0, 0, 0, 0],
+'blue, black, gold, blue' : [0, 0, 0, 0],
+'blue, black, gold, gold' : [0, 0, 0, 0],
+'blue, red, black, black' : [0, 0, 0, 0],
+'blue, red, black, red' : [0, 0, 0, 0],
+'blue, red, black, blue' : [0, 0, 0, 0],
+'blue, red, black, gold' : [0, 0, 0, 0],
+'blue, red, red, black' : [0, 0, 0, 0],
+'blue, red, red, red' : [0, 0, 0, 0],
+'blue, red, red, blue' : [0, 0, 0, 0],
+'blue, red, red, gold' : [0, 0, 0, 0],
+'blue, red, blue, black' : [0, 0, 0, 0],
+'blue, red, blue, red' : [0, 0, 0, 0],
+'blue, red, blue, blue' : [0, 0, 0, 0],
+'blue, red, blue, gold' : [0, 0, 0, 0],
+'blue, red, gold, black' : [0, 0, 0, 0],
+'blue, red, gold, red' : [0, 0, 0, 0],
+'blue, red, gold, blue' : [0, 0, 0, 0],
+'blue, red, gold, gold' : [0, 0, 0, 0],
+'blue, blue, black, black' : [0, 0, 0, 0],
+'blue, blue, black, red' : [0, 0, 0, 0],
+'blue, blue, black, blue' : [0, 0, 0, 0],
+'blue, blue, black, gold' : [0, 0, 0, 0],
+'blue, blue, red, black' : [0, 0, 0, 0],
+'blue, blue, red, red' : [0, 0, 0, 0],
+'blue, blue, red, blue' : [0, 0, 0, 0],
+'blue, blue, red, gold' : [0, 0, 0, 0],
+'blue, blue, blue, black' : [0, 0, 0, 0],
+'blue, blue, blue, red' : [0, 0, 0, 0],
+'blue, blue, blue, blue' : [0, 0, 0, 0],
+'blue, blue, blue, gold' : [0, 0, 0, 0],
+'blue, blue, gold, black' : [0, 0, 0, 0],
+'blue, blue, gold, red' : [0, 0, 0, 0],
+'blue, blue, gold, blue' : [0, 0, 0, 0],
+'blue, blue, gold, gold' : [0, 0, 0, 0],
+'blue, gold, black, black' : [0, 0, 0, 0],
+'blue, gold, black, red' : [0, 0, 0, 0],
+'blue, gold, black, blue' : [0, 0, 0, 0],
+'blue, gold, black, gold' : [0, 0, 0, 0],
+'blue, gold, red, black' : [0, 0, 0, 0],
+'blue, gold, red, red' : [0, 0, 0, 0],
+'blue, gold, red, blue' : [0, 0, 0, 0],
+'blue, gold, red, gold' : [0, 0, 0, 0],
+'blue, gold, blue, black' : [0, 0, 0, 0],
+'blue, gold, blue, red' : [0, 0, 0, 0],
+'blue, gold, blue, blue' : [0, 0, 0, 0],
+'blue, gold, blue, gold' : [0, 0, 0, 0],
+'blue, gold, gold, black' : [0, 0, 0, 0],
+'blue, gold, gold, red' : [0, 0, 0, 0],
+'blue, gold, gold, blue' : [0, 0, 0, 0],
+'blue, gold, gold, gold' : [0, 0, 0, 0],
+'gold, black, black, black' : [0, 0, 0, 0],
+'gold, black, black, red' : [0, 0, 0, 0],
+'gold, black, black, blue' : [0, 0, 0, 0],
+'gold, black, black, gold' : [0, 0, 0, 0],
+'gold, black, red, black' : [0, 0, 0, 0],
+'gold, black, red, red' : [0, 0, 0, 0],
+'gold, black, red, blue' : [0, 0, 0, 0],
+'gold, black, red, gold' : [0, 0, 0, 0],
+'gold, black, blue, black' : [0, 0, 0, 0],
+'gold, black, blue, red' : [0, 0, 0, 0],
+'gold, black, blue, blue' : [0, 0, 0, 0],
+'gold, black, blue, gold' : [0, 0, 0, 0],
+'gold, black, gold, black' : [0, 0, 0, 0],
+'gold, black, gold, red' : [0, 0, 0, 0],
+'gold, black, gold, blue' : [0, 0, 0, 0],
+'gold, black, gold, gold' : [0, 0, 0, 0],
+'gold, red, black, black' : [0, 0, 0, 0],
+'gold, red, black, red' : [0, 0, 0, 0],
+'gold, red, black, blue' : [0, 0, 0, 0],
+'gold, red, black, gold' : [0, 0, 0, 0],
+'gold, red, red, black' : [0, 0, 0, 0],
+'gold, red, red, red' : [0, 0, 0, 0],
+'gold, red, red, blue' : [0, 0, 0, 0],
+'gold, red, red, gold' : [0, 0, 0, 0],
+'gold, red, blue, black' : [0, 0, 0, 0],
+'gold, red, blue, red' : [0, 0, 0, 0],
+'gold, red, blue, blue' : [0, 0, 0, 0],
+'gold, red, blue, gold' : [0, 0, 0, 0],
+'gold, red, gold, black' : [0, 0, 0, 0],
+'gold, red, gold, red' : [0, 0, 0, 0],
+'gold, red, gold, blue' : [0, 0, 0, 0],
+'gold, red, gold, gold' : [0, 0, 0, 0],
+'gold, blue, black, black' : [0, 0, 0, 0],
+'gold, blue, black, red' : [0, 0, 0, 0],
+'gold, blue, black, blue' : [0, 0, 0, 0],
+'gold, blue, black, gold' : [0, 0, 0, 0],
+'gold, blue, red, black' : [0, 0, 0, 0],
+'gold, blue, red, red' : [0, 0, 0, 0],
+'gold, blue, red, blue' : [0, 0, 0, 0],
+'gold, blue, red, gold' : [0, 0, 0, 0],
+'gold, blue, blue, black' : [0, 0, 0, 0],
+'gold, blue, blue, red' : [0, 0, 0, 0],
+'gold, blue, blue, blue' : [0, 0, 0, 0],
+'gold, blue, blue, gold' : [0, 0, 0, 0],
+'gold, blue, gold, black' : [0, 0, 0, 0],
+'gold, blue, gold, red' : [0, 0, 0, 0],
+'gold, blue, gold, blue' : [0, 0, 0, 0],
+'gold, blue, gold, gold' : [0, 0, 0, 0],
+'gold, gold, black, black' : [0, 0, 0, 0],
+'gold, gold, black, red' : [0, 0, 0, 0],
+'gold, gold, black, blue' : [0, 0, 0, 0],
+'gold, gold, black, gold' : [0, 0, 0, 0],
+'gold, gold, red, black' : [0, 0, 0, 0],
+'gold, gold, red, red' : [0, 0, 0, 0],
+'gold, gold, red, blue' : [0, 0, 0, 0],
+'gold, gold, red, gold' : [0, 0, 0, 0],
+'gold, gold, blue, black' : [0, 0, 0, 0],
+'gold, gold, blue, red' : [0, 0, 0, 0],
+'gold, gold, blue, blue' : [0, 0, 0, 0],
+'gold, gold, blue, gold' : [0, 0, 0, 0],
+'gold, gold, gold, black' : [0, 0, 0, 0],
+'gold, gold, gold, red' : [0, 0, 0, 0],
+'gold, gold, gold, blue' : [0, 0, 0, 0],
+'gold, gold, gold, gold' : [0, 0, 0, 0]
+}
+
+while k < 8076:
+    mergedValuesForPattern = [', '.join(integerValues[i: j])]
+    valueAfterMerge = integerValues[k]
+    mergedValuesForPatternToString = str(mergedValuesForPattern)[1:-1] #removing square brackets
+    simplifiedMergedValuesForPatternToString = mergedValuesForPatternToString[1:-1] #removing quotes
+    if simplifiedMergedValuesForPatternToString in permutationsOfColours:
+        if valueAfterMerge == "black":
+            permutationsOfColours[simplifiedMergedValuesForPatternToString][0] += 1
+        elif valueAfterMerge == "red":
+            permutationsOfColours[simplifiedMergedValuesForPatternToString][1] += 1
+        elif valueAfterMerge == "blue":
+            permutationsOfColours[simplifiedMergedValuesForPatternToString][2] += 1
+        else:
+            permutationsOfColours[simplifiedMergedValuesForPatternToString][3] += 1
+    i += 1
+    j += 1
+    k += 1
+
+#print(permutationsOfColours)
+
+jsonObject = json.dumps(permutationsOfColours, indent = 4)
+#print(jsonObject)
